@@ -1,24 +1,41 @@
 import { Injectable } from '@nestjs/common';
-
-// This should be a real class/interface representing a user entity
-export type User = { userId: number; username: string; password: string };
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User, UserDocument } from './schemas/user.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
+    // createUserDto.password = hash;
+    const createUser = { ...createUserDto, role: 1, password: hash };
+    const createdCat = await this.userModel.create(createUser);
+    return createdCat;
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().select('-password').exec();
+  }
+
+  async findOne(id: string): Promise<User> {
+    return this.userModel.findOne({ _id: id }).select('-password').exec();
+  }
+
+  async findOneByUsernameOrEmail(value): Promise<User> {
+    return this.userModel.findOne({ username: value }).exec();
+  }
+
+  async findOneByProperty({ name, value }): Promise<User> {
+    return this.userModel.findOne({ [name]: value }).exec();
+  }
+
+  async delete(id: string) {
+    const deletedCat = await this.userModel.findByIdAndRemove({ _id: id }).exec();
+    return deletedCat;
   }
 }
