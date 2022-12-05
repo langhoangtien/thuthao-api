@@ -12,6 +12,6 @@ export class CreateCatInput {
   @Field()
   breed: string;
 
-  @Field()
-  user: string;
+  // @Field()
+  // user: string;
 }

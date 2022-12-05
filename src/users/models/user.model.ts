@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Cat } from 'src/cats/models/cat.model';
 
 @ObjectType()
 export class User {
@@ -18,4 +19,7 @@ export class User {
 
   @Field()
   id: string;
+
+  // @Field((type) => [Cat])
+  // cats: Cat[];
 }

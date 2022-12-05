@@ -1,8 +1,11 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { GraphqlAuthGuard } from '../auth/gql-auth.guard';
 import { CatsService } from './cats.service';
 import { CreateCatInput } from './dto/create-cat.input';
 import { Cat } from './models/cat.model';
 
+@UseGuards(GraphqlAuthGuard)
 @Resolver(() => Cat)
 export class CatsResolver {
   constructor(private catsService: CatsService) {}
@@ -21,11 +24,11 @@ export class CatsResolver {
     return this.catsService.create(createCatInput);
   }
 
-  @ResolveField()
-  async users(@Parent() cat: Cat) {
-    console.log('CAT', cat);
+  // @ResolveField()
+  // async users(@Parent() cat: Cat) {
+  //   console.log('CAT', cat);
 
-    //   const { id } = cat;
-    //   return this.catsService.findAll({  id });
-  }
+  //   //   const { id } = cat;
+  //   //   return this.catsService.findAll({  id });
+  // }
 }
