@@ -19,6 +19,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CouponsService } from './coupons/coupons.service';
 import { CouponsModule } from './coupons/coupons.module';
 import { CommonModule } from './common/common.module';
+import { UploadsService } from './uploads/uploads.service';
+import { UploadsResolver } from './uploads/uploads.resolver';
+// import { UploadsModule } from './uploads/uploads.module';
 
 @Module({
   imports: [
@@ -38,13 +41,14 @@ import { CommonModule } from './common/common.module';
     ProductsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
+      autoSchemaFile: 'schema.gql',
     }),
     CouponsModule,
     CommonModule,
+    // UploadsModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ConfigService, CouponsService],
+  providers: [AppService, ConfigService, CouponsService, UploadsService, UploadsResolver],
 })
 export class AppModule implements NestModule {
   constructor(private configService: ConfigService) {}

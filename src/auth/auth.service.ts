@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginInput } from './dto/login.input';
+import { RegisterInput } from './dto/register.input';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,16 @@ export class AuthService {
     }
     return null;
   }
+
+  async register(registerInput: RegisterInput) {
+    const createUserDto = { ...registerInput, role: 1 };
+    const user = await this.usersService.create(createUserDto);
+    const { password, ...result } = user;
+    console.log('CCCC', result);
+
+    return { user: result };
+  }
+
   async login(loginInput: LoginInput) {
     const user = await this.usersService.findOneByUsernameOrEmail(loginInput.username);
     const payload = { username: user.username, sub: user.id };
@@ -35,6 +46,5 @@ export class AuthService {
 }
 
 async function checkUser(password: string, passwordHash: string) {
-  const match = await bcrypt.compare(password, passwordHash);
-  return match;
+  return await bcrypt.compare(password, passwordHash);
 }

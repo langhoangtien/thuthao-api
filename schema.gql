@@ -1,0 +1,132 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  username: String!
+  email: String!
+  role: Int!
+  age: Int!
+  id: String!
+}
+
+type LoginResponse {
+  access_token: String!
+  user: User!
+}
+
+type Cat {
+  name: String!
+  age: Int!
+  breed: String!
+}
+
+type Attachment {
+  id: ID
+}
+
+type Coupon {
+  id: ID!
+  code: String!
+  description: String!
+  type: [CouponType!]!
+  image: [Attachment!]!
+  is_valid: Boolean!
+  amount: Float!
+  active_from: String!
+  expire_at: String!
+}
+
+enum CouponType {
+  FIXED_COUPON
+  PERCENTAGE_COUPON
+  FREE_SHIPPING_COUPON
+  DEFAULT_COUPON
+}
+
+type PaginatorInfo {
+  count: Int!
+  currentPage: Int!
+  firstItem: Int!
+  hasMorePages: Boolean!
+  lastItem: Int!
+  lastPage: Int!
+  perPage: Int!
+  total: Int!
+}
+
+type CouponPaginator {
+  data: [Coupon!]!
+  paginatorInfo: [PaginatorInfo!]!
+}
+
+type VerifyCouponResponse {
+  is_valid: Boolean!
+  coupon: [Coupon!]!
+}
+
+"""File upload scalar type"""
+scalar Upload
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+  cat(id: String!): Cat!
+  cats: [Cat!]!
+  coupons(first: Int! = 15, page: Int! = 1): CouponPaginator!
+  coupon(id: ID!): Coupon!
+}
+
+type Mutation {
+  login(input: LoginInput!): LoginResponse!
+  createUser(input: CreateUserInput!): User!
+  createCat(input: CreateCatInput!): Cat!
+  createCoupon(input: CreateCouponInput!): Coupon!
+  updateCoupon(input: UpdateCouponInput!): Coupon!
+  deleteCoupon(id: ID!): Coupon!
+  verifyCoupon(code: String!): VerifyCouponResponse!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  role: Float!
+  age: Float!
+  password: String!
+}
+
+input CreateCatInput {
+  name: String!
+  age: Float!
+  breed: String!
+}
+
+input CreateCouponInput {
+  code: String!
+  description: String!
+  type: [CouponType!]!
+  image: [AttachmentInput!]!
+  amount: Float!
+  active_from: String!
+  expire_at: String!
+}
+
+input AttachmentInput {
+  id: ID
+}
+
+input UpdateCouponInput {
+  code: String
+  description: String
+  type: [CouponType!]
+  image: [AttachmentInput!]
+  amount: Float
+  active_from: String
+  expire_at: String
+  id: ID!
+}

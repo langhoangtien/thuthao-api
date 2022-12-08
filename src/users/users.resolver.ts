@@ -5,11 +5,14 @@ import { LoginInput } from '../auth/dto/login.input';
 
 import { User } from './models/user.model';
 import { UsersService } from './users.service';
+import { UseGuards } from '@nestjs/common/decorators';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Query(() => [User], { name: 'users' })
   async users() {
     return this.usersService.findAll();
@@ -21,7 +24,7 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  createUser(@Args('input') createUserInput: CreateUserInput) {
+  async createUser(@Args('input') createUserInput: CreateUserInput) {
     return this.usersService.create(createUserInput);
   }
 }
