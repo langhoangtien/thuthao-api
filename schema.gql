@@ -2,23 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Cat {
+  name: String!
+  age: Int!
+  breed: String!
+}
+
 type User {
   username: String!
   email: String!
   role: Int!
   age: Int!
-  id: String!
+  cats: [Cat!]!
 }
 
 type LoginResponse {
   access_token: String!
   user: User!
-}
-
-type Cat {
-  name: String!
-  age: Int!
-  breed: String!
 }
 
 type Attachment {

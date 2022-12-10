@@ -1,20 +1,22 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
-import { AuthService } from 'src/auth/auth.service';
+import { Resolver, Query, Args, Mutation, ResolveField, Parent } from '@nestjs/graphql';
 import { CreateUserInput } from './dto/create-user.input';
-import { LoginInput } from '../auth/dto/login.input';
 
 import { User } from './models/user.model';
 import { UsersService } from './users.service';
 import { UseGuards } from '@nestjs/common/decorators';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuardGql } from 'src/auth/jwt-auth.guard';
+import { CurrentUser } from 'src/auth/get-current-user';
+import { CatsService } from 'src/cats/cats.service';
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private catsService: CatsService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuardGql)
   @Query(() => [User], { name: 'users' })
-  async users() {
+  async users(@CurrentUser() user: User) {
+    console.log('USER', user);
+
     return this.usersService.findAll();
   }
 
@@ -26,5 +28,11 @@ export class UsersResolver {
   @Mutation(() => User)
   async createUser(@Args('input') createUserInput: CreateUserInput) {
     return this.usersService.create(createUserInput);
+  }
+
+  @ResolveField()
+  async cats(@Parent() user: User) {
+    const { _id } = user;
+    return this.catsService.find(_id);
   }
 }

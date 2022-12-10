@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "Node16",
+    "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -16,8 +16,8 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "maxNodeModuleJsDepth": 10,
-    "allowJs": true
+    "noFallthroughCasesInSwitch": false
+    // "maxNodeModuleJsDepth": 10,
+    // "allowJs": true
   }
 }

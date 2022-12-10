@@ -17,9 +17,9 @@ export class User {
 
   password: string;
 
-  @Field()
-  id: string;
+  // @Field()
+  _id: string;
 
-  // @Field((type) => [Cat])
-  // cats: Cat[];
+  @Field((type) => [Cat])
+  cats: Cat[];
 }

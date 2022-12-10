@@ -21,6 +21,10 @@ export class CatsService {
     return this.catModel.findOne({ _id: id }).exec();
   }
 
+  async find(id: string): Promise<Cat[]> {
+    return this.catModel.find({ userId: id });
+  }
+
   async delete(id: string) {
     const deletedCat = await this.catModel.findByIdAndRemove({ _id: id }).exec();
     return deletedCat;

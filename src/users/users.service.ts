@@ -26,8 +26,8 @@ export class UsersService {
     return this.userModel.findOne({ _id: id }).select('-password').exec();
   }
 
-  async findOneByUsernameOrEmail(value): Promise<User> {
-    return this.userModel.findOne({ username: value }).lean().exec();
+  async findOneByUsernameOrEmail(value: string, select = ''): Promise<User> {
+    return this.userModel.findOne({ username: value }).select(select).lean().exec();
   }
 
   async findOneByProperty({ name, value }): Promise<User> {

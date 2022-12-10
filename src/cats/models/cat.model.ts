@@ -13,5 +13,5 @@ export class Cat {
   breed: string;
 
   // @Field()
-  // user: User;
+  // userId: User;
 }

@@ -1,18 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Category } from 'src/categories/schemas/category.schema';
 
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
 export class Product {
-  //   @Prop()
-  //   name: string;
-
-  //   @Prop()
-  //   age: number;
-
-  //   @Prop()
-  //   breed: string;
   @Prop()
   id: string;
   @Prop()
@@ -55,8 +48,8 @@ export class Product {
   sold: number;
   // @Prop()
   // createdAt: Date | string | number;
-  //   @Prop()
-  //   category: ProductCategory;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
+  category: Category;
   //   @Prop()
   //   gender: ProductGender;
 }
