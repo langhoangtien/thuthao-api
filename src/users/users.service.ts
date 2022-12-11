@@ -23,11 +23,22 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ _id: id }).select('-password').exec();
+    return this.userModel
+      .findOne({ _id: id }, function (error) {
+        console.log(error);
+      })
+      .select('-password')
+      .exec();
   }
 
   async findOneByUsernameOrEmail(value: string, select = ''): Promise<User> {
-    return this.userModel.findOne({ username: value }).select(select).lean().exec();
+    return this.userModel
+      .findOne({ username: value }, function (error) {
+        console.log(error);
+      })
+      .select(select)
+      .lean()
+      .exec();
   }
 
   async findOneByProperty({ name, value }): Promise<User> {

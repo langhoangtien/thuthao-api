@@ -15,8 +15,6 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuardGql)
   @Query(() => [User], { name: 'users' })
   async users(@CurrentUser() user: User) {
-    console.log('USER', user);
-
     return this.usersService.findAll();
   }
 
@@ -30,9 +28,9 @@ export class UsersResolver {
     return this.usersService.create(createUserInput);
   }
 
-  @ResolveField()
-  async cats(@Parent() user: User) {
-    const { _id } = user;
-    return this.catsService.find(_id);
-  }
+  // @ResolveField()
+  // async cats(@Parent() user: User) {
+  //   const { _id } = user;
+  //   return this.catsService.find(_id);
+  // }
 }

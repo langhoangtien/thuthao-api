@@ -13,8 +13,6 @@ import { UsersService } from 'src/users/users.service';
 export class IsFieldAlreadyExistConstraint implements ValidatorConstraintInterface {
   constructor(protected readonly usersService: UsersService) {}
   validate(value: any, args: ValidationArguments) {
-    console.log('AAAAABBBB');
-
     return this.usersService.findOneByProperty({ name: args.property, value }).then((user) => {
       if (user) return false;
       return true;
@@ -24,7 +22,6 @@ export class IsFieldAlreadyExistConstraint implements ValidatorConstraintInterfa
 
 export function IsFieldAlreadyExist(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
-    console.log('USERRRDDDRR', propertyName);
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
@@ -35,25 +32,25 @@ export function IsFieldAlreadyExist(validationOptions?: ValidationOptions) {
   };
 }
 
-@ValidatorConstraint({ name: 'ImageSizeAndType' })
-@Injectable()
-export class ImageSizeAndTypeConstraint implements ValidatorConstraintInterface {
-  validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
-    console.log('VALUE', value, 'ARGUMANT', validationArguments);
+// @ValidatorConstraint({ name: 'ImageSizeAndType' })
+// @Injectable()
+// export class ImageSizeAndTypeConstraint implements ValidatorConstraintInterface {
+//   validate(value: any, validationArguments?: ValidationArguments): boolean | Promise<boolean> {
+//     console.log('VALUE', value, 'ARGUMANT', validationArguments);
 
-    const mimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    return mimeTypes.find((mimeType) => mimeType === value.mimetype) && value.size < 200000;
-  }
-}
+//     const mimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+//     return mimeTypes.find((mimeType) => mimeType === value.mimetype) && value.size < 200000;
+//   }
+// }
 
-export function ImageSizeAndType(validationOptions?: ValidationOptions) {
-  return function (object: any, propertyName: string) {
-    registerDecorator({
-      target: object.constructor,
-      propertyName: propertyName,
-      options: { message: `This ${propertyName} has been used XXX`, ...validationOptions },
-      constraints: [],
-      validator: ImageSizeAndTypeConstraint,
-    });
-  };
-}
+// export function ImageSizeAndType(validationOptions?: ValidationOptions) {
+//   return function (object: any, propertyName: string) {
+//     registerDecorator({
+//       target: object.constructor,
+//       propertyName: propertyName,
+//       options: { message: `This ${propertyName} has been used XXX`, ...validationOptions },
+//       constraints: [],
+//       validator: ImageSizeAndTypeConstraint,
+//     });
+//   };
+// }
