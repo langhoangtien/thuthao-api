@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   getHello(): string {
-    return 'Hello World!';
+    return 'Hello a World!';
   }
 }
 
