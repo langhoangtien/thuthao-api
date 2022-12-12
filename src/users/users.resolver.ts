@@ -28,9 +28,14 @@ export class UsersResolver {
     return this.usersService.create(createUserInput);
   }
 
-  // @ResolveField()
-  // async cats(@Parent() user: User) {
-  //   const { _id } = user;
-  //   return this.catsService.find(_id);
-  // }
+  @Mutation(() => User)
+  async updateUser(@Args('input') createUserInput: CreateUserInput) {
+    return this.usersService.create(createUserInput);
+  }
+
+  @ResolveField()
+  async cats(@Parent() user: User) {
+    const { _id } = user;
+    return this.catsService.find(_id);
+  }
 }

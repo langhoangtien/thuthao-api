@@ -28,4 +28,7 @@ export class CreateUserInput {
   @Field()
   @IsNotEmpty()
   password: string;
+
+  @Field()
+  avatar?: string;
 }

@@ -1,8 +1,7 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'src/auth/get-current-user';
 import { JwtAuthGuardGql } from 'src/auth/jwt-auth.guard';
-import { GraphqlAuthGuard } from '../auth/gql-auth.guard';
 import { CatsService } from './cats.service';
 import { CreateCatInput } from './dto/create-cat.input';
 import { Cat } from './models/cat.model';

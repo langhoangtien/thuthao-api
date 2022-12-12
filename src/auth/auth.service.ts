@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { LoginInput } from './dto/login.input';
+import { ChangePasswordInput } from './dto/change-password.input';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,15 @@ export class AuthService {
       user,
     };
   }
+
+  async changePassword(changePasswordInput: ChangePasswordInput, id: string) {
+    const user = await this.usersService.findById(id);
+    if (!user) return null;
+    const check = await checkUser(changePasswordInput.oldPassword, user.password);
+
+    if (check) return this.usersService.updatePassword(changePasswordInput.password, id);
+  }
+
   getHello(): string {
     return 'Hello World!';
   }

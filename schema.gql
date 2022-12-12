@@ -26,7 +26,6 @@ type Attachment {
 }
 
 type Coupon {
-  id: ID!
   code: String!
   description: String!
   type: [CouponType!]!
@@ -79,7 +78,9 @@ type Query {
 
 type Mutation {
   login(input: LoginInput!): LoginResponse!
+  changePassword(input: ChangePasswordInput!): User!
   createUser(input: CreateUserInput!): User!
+  updateUser(input: CreateUserInput!): User!
   createCat(input: CreateCatInput!): Cat!
   createCoupon(input: CreateCouponInput!): Coupon!
   updateCoupon(input: UpdateCouponInput!): Coupon!
@@ -92,12 +93,18 @@ input LoginInput {
   password: String!
 }
 
+input ChangePasswordInput {
+  password: String!
+  oldPassword: String!
+}
+
 input CreateUserInput {
   username: String!
   email: String!
   role: Float!
   age: Float!
   password: String!
+  avatar: String!
 }
 
 input CreateCatInput {

@@ -1,9 +1,13 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { User } from 'src/users/models/user.model';
 import { AuthService } from './auth.service';
+import { ChangePasswordInput } from './dto/change-password.input';
 import { LoginInput } from './dto/login.input';
 import { LoginResponse } from './dto/login.response';
+import { CurrentUser } from './get-current-user';
 import { GraphqlAuthGuard } from './gql-auth.guard';
+import { JwtAuthGuardGql } from './jwt-auth.guard';
 // import { LocalAuthGuard } from './local-auth.guard';
 
 @Resolver()
@@ -18,8 +22,9 @@ export class AuthResolver {
     // return this.authService.login()
   }
 
-  // @Mutation(() => RegisterResponse)
-  // resgister(@Args('input') registerInput: RegisterInput) {
-  //   return this.authService.register(registerInput);
-  // }
+  @UseGuards(JwtAuthGuardGql)
+  @Mutation(() => User)
+  changePassword(@Args('input') changePasswordInput: ChangePasswordInput, @CurrentUser() user) {
+    return this.authService.changePassword(changePasswordInput, user.userId);
+  }
 }
